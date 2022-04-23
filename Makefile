@@ -1,34 +1,20 @@
 CC = g++
-BUILD_DIR = build
-CFLAGS = -std=c++17 -pthread -Wall -Werror
+FLAGS = -std=c++11
+COMPILE_FLAGS = $(FLAGS) -c
 
-TARGET = average_calculator
+all: main.out class.out 
 
-OBJECTS = \
-	$(BUILD_DIR)/main.o \
-	$(BUILD_DIR)/utils.o 
+main.out: main.o utils.o
+	$(CC) main.o utils.o $(FLAGS) -o main.out
 
-mainDependencies = main.cpp \
-	utils.hpp
+class.out: class.o utils.o
+	$(CC) class.o utils.o $(FLAGS) -o class.out
 
-utilsDependencies = utils.cpp \
-	utils.hpp
-
-
-all: $(BUILD_DIR) $(TARGET)
-
-$(BUILD_DIR):
-	mkdir -p $(BUILD_DIR)
-
-$(BUILD_DIR)/main.o: $(mainDependencies)
-	$(CC) $(CFLAGS) -c main.cpp -o $(BUILD_DIR)/main.o
-
-$(BUILD_DIR)/utils.o: $(utilsDependencies)
-	$(CC) $(CFLAGS) -c utils.cpp -o $(BUILD_DIR)/utils.o	
-
-$(TARGET): $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) -o $(TARGET)
+utils.o: utils.cpp utils.hpp
+	$(CC) $(COMPILE_FLAGS) utils.cpp
 
 .PHONY: clean
+
 clean:
-	rm -rf $(BUILD_DIR) *.o *.out
+				rm *.o
+				rm *.out
