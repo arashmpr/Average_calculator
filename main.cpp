@@ -2,6 +2,8 @@
 
 int main(int args, char* argv[]) {
     char* school_file_path = argv[1];
+    char class_path[BUFFER_SIZE];
+    sprintf(class_path, "%s/class", school_file_path);
 
     char send_buf[BUFFER_SIZE];
 
@@ -14,7 +16,7 @@ int main(int args, char* argv[]) {
     class_names = get_subdirs_or_files(school_file_path);
 
     for (int i=0 ; i < class_names.size() ; i++) {
-        sprintf(send_buf, "$%d$%s$", i+1, base_fifo_name);
+        sprintf(send_buf, "$%d$%s$%s$", i+1, base_fifo_name, class_path);
         if(pipe(pipe_fd) < 0) {
             std::cout << "Could not create pipe!" << std::endl;
             exit(1);
@@ -26,7 +28,7 @@ int main(int args, char* argv[]) {
             close(pipe_fd[1]);
             dup2(pipe_fd[0], STDIN_FILENO);
             close(pipe_fd[0]);
-            execl("./class.out", "kir", NULL);
+            execl("./class.out", "./school/class", NULL);
         }
 
         //In Parent Process
