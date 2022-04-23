@@ -5,7 +5,7 @@ std::vector<std::string> get_subdirs_or_files(char* path) {
     DIR *dir = opendir(path);
 
     if(dir == NULL) {
-        std::cout << "ERROR::Could not open the current directory" << std::endl;
+        perror("opendir");
         exit(1);
     }
 

@@ -13,9 +13,17 @@
 #include <sys/types.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <cstring>
 
 #define BUFFER_SIZE 512
-#define BASE_FIFO_PATH "./pipes/school/"
+#define FIFO_SIZE 64
+#define INITIAL_FIFO_PATH "pipes-school";
+
+#define PHYSICS     0
+#define ENGLISH     1
+#define MATH        2
+#define LITERATURE  3  
+#define CHEMISTRY   4
 
 std::vector<std::string> get_subdirs_or_files(char* path);
 
