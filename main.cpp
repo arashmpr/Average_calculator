@@ -58,9 +58,31 @@ int main(int args, char* argv[]) {
         }
     }
 
-    std::vector<char*> fifo_names = split_fifo_names(result);
-
     close(read_fifo);
     unlink(parent_fifo_path);
+
+    int p[2];
+    for (int field_id = 0; field_id < 5 ; field_id++) {
+        memset(send_buf, 0, BUFFER_SIZE);
+        sprintf(send_buf, "$%s$%d$", result, field_id);
+        if(pipe(p) < 0) {
+            perror("pipe");
+            exit(1);
+        }
+        pid_t pid = fork();
+        if(pid == 0) {
+            //In Child Process
+            close(p[1]);
+            dup2(p[0], STDIN_FILENO);
+            close(p[0]);
+            execv("./read_and_calculate.out", NULL);
+        }
+
+        //In Parent Process
+        close(p[0]);
+        write(p[1], send_buf, BUFFER_SIZE);
+        close(p[1]);
+    }
+    
     exit(EXIT_SUCCESS);
 }

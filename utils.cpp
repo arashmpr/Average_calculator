@@ -36,14 +36,12 @@ char* create_fifo_name(char* parent_fifo_path, char* student_name, const char* f
 void put_grade_on_field(char* fifo_path, int grade) {
     int write_fifo;
     char send_buf[BUFFER_SIZE];
-
-    write_fifo = open(fifo_path, O_WRONLY);
-
+    write_fifo = open(fifo_path, O_WRONLY | O_NONBLOCK);
+    // std::cout << fifo_path << std::endl;
     sprintf(send_buf, "%d", grade);
     write(write_fifo, send_buf, BUFFER_SIZE);
 
     close(write_fifo);
-    exit(EXIT_SUCCESS);
 }
 
 std::vector<char*> split_fifo_names(char* result) {

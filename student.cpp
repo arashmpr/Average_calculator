@@ -38,8 +38,8 @@ int main(int argc, char* argv[]) {
     while(std::getline(csv_out, field, ',')) {
         std::getline(csv_out, grade_str, '\n');
         strcpy(field_fifo_path,create_fifo_name(parent_fifo_path, student_name, field.c_str()));
-        // grade = atoi(grade_str.c_str());
-        // put_grade_on_field(field_fifo_path, grade);
+        grade = atoi(grade_str.c_str());
+        put_grade_on_field(field_fifo_path, grade);
     }
 
     char final_ans[BUFFER_SIZE];
