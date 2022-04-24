@@ -14,9 +14,12 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <cstring>
+#include <fstream>
+#include <cstdlib>
 
 #define BUFFER_SIZE 512
 #define FIFO_SIZE 64
+#define SIZE 128
 #define INITIAL_FIFO_PATH "pipes-school";
 
 #define PHYSICS     0

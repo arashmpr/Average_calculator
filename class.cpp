@@ -10,7 +10,6 @@ int main(int argc, char* argv[]) {
     char child_fifo_path[FIFO_SIZE];
 
     char class_dir_path[BUFFER_SIZE];
-    
 
     read(0, read_buf, BUFFER_SIZE);
     sscanf(read_buf, "$%d$%[^$]$%[^$]$", &class_id, parent_fifo_path, class_dir_path);
@@ -57,6 +56,7 @@ int main(int argc, char* argv[]) {
     }
 
     sprintf(send_buf, "%d", answer);
+    std::cout << answer << std::endl;
     write(write_fifo, send_buf, BUFFER_SIZE);
 
     close(read_fifo);
