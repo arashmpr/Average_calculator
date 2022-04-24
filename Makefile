@@ -24,3 +24,4 @@ utils.o: utils.cpp utils.hpp
 clean:
 				rm *.o
 				rm *.out
+				rm pipes*

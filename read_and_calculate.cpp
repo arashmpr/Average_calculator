@@ -25,21 +25,20 @@ int main(int argc, char* argv[]) {
     } else if (field_id == CHEMISTRY) {
         strcpy(field_name, "Chemistry"); 
     }
-
+    int grade;
     int grade_sum = 0;
-    int grade = 0;
     for (int i=0 ; i < fifo_names.size() ; i++) {
         char path[FIFO_SIZE];
         memset(path, 0, FIFO_SIZE);
+        memset(read_buf, 0, BUFFER_SIZE);
         strcat(path, "pipes-school-");
         strcat(path, fifo_names[i]);
         strcat(path, "-");
         strcat(path, field_name);
-
-        read_fifo = open(path, O_RDONLY | O_NONBLOCK);
-        std::cout << path << std::endl;
+        
+        read_fifo = open(path, O_RDWR);
         read(read_fifo, read_buf, BUFFER_SIZE);
-        sscanf(read_buf, "%d", &grade);
+        sscanf(read_buf, "$%d$", &grade);
         grade_sum += grade;
         close(read_fifo);
         unlink(path);
