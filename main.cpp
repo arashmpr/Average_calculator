@@ -57,7 +57,8 @@ int main(int args, char* argv[]) {
             strcat(result, answer);
         }
     }
-    std::cout<< result << std::endl;
+
+    std::vector<char*> fifo_names = split_fifo_names(result);
 
     close(read_fifo);
     unlink(parent_fifo_path);

@@ -45,3 +45,15 @@ void put_grade_on_field(char* fifo_path, int grade) {
     close(write_fifo);
     exit(EXIT_SUCCESS);
 }
+
+std::vector<char*> split_fifo_names(char* result) {
+    char* fifo_name;
+    std::vector<char*> fifo_names;
+    fifo_name = strtok(result, "@");
+    while(fifo_name != NULL) {
+        fifo_names.push_back(fifo_name);
+        fifo_name = strtok(NULL, "@");
+    }
+
+    return fifo_names;
+}

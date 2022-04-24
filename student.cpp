@@ -49,7 +49,6 @@ int main(int argc, char* argv[]) {
     strcat(final_ans, student_name);
 
     write_fifo = open(parent_fifo_path, O_WRONLY);
-    std::cout<< final_ans << std::endl;
     sprintf(send_buf, "%s", final_ans);
     write(write_fifo, send_buf, BUFFER_SIZE);
 
