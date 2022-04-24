@@ -48,15 +48,21 @@ int main(int argc, char* argv[]) {
     write_fifo = open(parent_fifo_path, O_WRONLY);
 
     int id = student_names.size();
-    int answer;
+    char result[BUFFER_SIZE];
+    char student_ans[BUFFER_SIZE];
+
     while(id != 0) {
         id--;
         read(read_fifo, read_buf, BUFFER_SIZE);
-        sscanf(read_buf, "%d", &answer);
+        sscanf(read_buf, "%s", student_ans);
+        if (id != 0) {
+            strcat(result, student_ans);
+            strcat(result, "@");
+        } else {
+            strcat(result, student_ans);
+        }
     }
-
-    sprintf(send_buf, "%d", answer);
-    std::cout << answer << std::endl;
+    sprintf(send_buf, "%s", result);
     write(write_fifo, send_buf, BUFFER_SIZE);
 
     close(read_fifo);

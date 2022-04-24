@@ -20,3 +20,28 @@ std::vector<std::string> get_subdirs_or_files(char* path) {
 
     return files;
 }
+
+char* create_fifo_name(char* parent_fifo_path, char* student_name, const char* field_name) {
+    char fifo_name[BUFFER_SIZE];
+    strcpy(fifo_name, parent_fifo_path);
+    strcat(fifo_name, "-");
+    strcat(fifo_name, student_name);
+    strcat(fifo_name, "-");
+    strcat(fifo_name, field_name);
+
+    mkfifo(fifo_name, 0777);
+    return fifo_name;
+}
+
+void put_grade_on_field(char* fifo_path, int grade) {
+    int write_fifo;
+    char send_buf[BUFFER_SIZE];
+
+    write_fifo = open(fifo_path, O_WRONLY);
+
+    sprintf(send_buf, "%d", grade);
+    write(write_fifo, send_buf, BUFFER_SIZE);
+
+    close(write_fifo);
+    exit(EXIT_SUCCESS);
+}

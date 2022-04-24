@@ -29,5 +29,7 @@
 #define CHEMISTRY   4
 
 std::vector<std::string> get_subdirs_or_files(char* path);
+char* create_fifo_name(char* parent_fifo_path, char* student_name, const char* field_name);
+void put_grade_on_field(char* fifo_path, int grade);
 
 #endif

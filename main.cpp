@@ -43,13 +43,21 @@ int main(int args, char* argv[]) {
 
     read_fifo = open(parent_fifo_path, O_RDWR);
     int id = class_names.size();
-    int answer;
+
+    char result[BUFFER_SIZE];
+    char answer[BUFFER_SIZE];
     while(id != 0) {
         id--;
         read(read_fifo, read_buf, BUFFER_SIZE);
-        sscanf(read_buf, "%d", &answer);
-        std::cout << answer << std::endl;
+        sscanf(read_buf, "%s", answer);
+        if(id != 0) {
+            strcat(result, answer);
+            strcat(result, "@");
+        } else {
+            strcat(result, answer);
+        }
     }
+    std::cout<< result << std::endl;
 
     close(read_fifo);
     unlink(parent_fifo_path);
