@@ -10,8 +10,8 @@ int main(int argc, char* argv[]) {
     int write_fifo;
 
     read(0, read_buf, BUFFER_SIZE);
-    sscanf(read_buf, "$%s$%s$", parent_fifo_path, student_name);
-    std::cout<<student_name<<std::endl;
+    sscanf(read_buf, "$%[^$]$%[^$]$", parent_fifo_path, student_name);
+    
 
     write_fifo = open(parent_fifo_path, O_WRONLY);
     sprintf(send_buf, "%d", 3);

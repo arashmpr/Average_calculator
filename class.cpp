@@ -19,10 +19,10 @@ int main(int argc, char* argv[]) {
     sprintf(class_dir_path, "%s%d", class_dir_path, class_id);
 
     std::vector<std::string> student_names = get_subdirs_or_files(class_dir_path);
-    
+    mkfifo(child_fifo_path, 0777);
+
     for (int i=0 ; i < student_names.size() ; i++) {
         sprintf(send_buf, "$%s$%s$", child_fifo_path, student_names[i].c_str());
-
         if(pipe(pipe_fd) < 0) {
             std::cout << "Could not create pipe!" << std::endl;
             exit(1);
@@ -32,6 +32,8 @@ int main(int argc, char* argv[]) {
         if(pid == 0) {
             //In Child Process
             close(pipe_fd[1]);
+            dup2(pipe_fd[0], STDIN_FILENO);
+            close(pipe_fd[0]);
             execv("./student.out", NULL);
         }
 
